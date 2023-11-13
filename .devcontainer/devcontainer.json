@@ -42,7 +42,16 @@
 
   // Mount node_modules as volume to speed up installation. Need to use - instead of / as its a restricted character
   "mounts": [
-    "source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
+    {
+      "source": "${localWorkspaceFolderBasename}-node_modules",
+      "target": "${containerWorkspaceFolder}/node_modules",
+      "type": "volume"
+    },
+    {
+      "source": "${localWorkspaceFolderBasename}-.devcontainer-.zsh_history",
+      "target": "/home/node",
+      "type": "volume"
+    }
   ],
   // Change the default folder location from /workspace to /opt and load that inside container.
   "workspaceMount": "source=${localWorkspaceFolder},target=/opt/${localWorkspaceFolderBasename},type=bind",
