@@ -14,7 +14,13 @@
   // vs code extensions to install
   "customizations": {
     "vscode": {
-      "extensions": ["mikestead.dotenv", "mutantdino.resourcemonitor"]
+      "extensions": [
+        "mutantdino.resourcemonitor",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "oderwat.indent-rainbow",
+        "dotenv.dotenv-vscode"
+      ]
     }
   },
 
