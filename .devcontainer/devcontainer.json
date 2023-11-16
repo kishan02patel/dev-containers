@@ -53,8 +53,8 @@
       "type": "volume"
     },
     {
-      "source": "${localWorkspaceFolderBasename}-.devcontainer-.zsh_history",
-      "target": "/home/node/.zsh_history",
+      "source": "${localWorkspaceFolderBasename}-.devcontainer-history",
+      "target": "/home/node/history",
       "type": "volume"
     }
   ],

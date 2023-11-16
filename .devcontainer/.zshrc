@@ -111,3 +111,6 @@ source $ZSH/oh-my-zsh.sh
 # Alias for frequently used commands
 alias ip="curl icanhazip.com"
 alias bat=batcat
+
+# Needed as the dev container binds history file to a different location.
+export HISTFILE=~/history/.zsh_history
