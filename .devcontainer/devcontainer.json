@@ -2,20 +2,33 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node
 {
   "name": "Node.js",
+  // "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye",
-
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
   // Features to add to the dev container. More info: https://containers.dev/features.
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {
-      "configureZshAsDefaultShell": true
+      "configureZshAsDefaultShell": true,
+      // No need to copy user config to root.
+      "installOhMyZsh": false
     }
   },
-
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   "forwardPorts": [3000],
-
-  // vs code extensions to install
+  // Use 'postCreateCommand' to run commands after the container is created.
+  // Since container runs under a node user we need to give node user access to node_modules
+  // "postCreateCommand": "cp .devcontainer/.zshrc $HOME && cp .devcontainer/.p10k.zsh $HOME && sudo chown node node_modules && npm install",
+  "postCreateCommand": {
+    "copyFiles": "cp .devcontainer/.zshrc $HOME && cp .devcontainer/.p10k.zsh $HOME && cp .devcontainer/.tmux.conf $HOME",
+    "copyFonts": "sudo cp -a .devcontainer/fonts/. /usr/local/share/fonts/ && fc-cache -f -v",
+    "updatePermissionsAndInstall": "sudo chown node node_modules && npm install"
+  },
+  // To start the server whenever container is run.
+  // nohup is used so that process is not killed after 15mins. & is used to run in background.
+  "postStartCommand": "nohup bash -c 'npm run dev &'",
+  // Configure tool-specific properties.
   "customizations": {
     "vscode": {
       "extensions": [
@@ -24,22 +37,14 @@
         "esbenp.prettier-vscode",
         "oderwat.indent-rainbow",
         "dotenv.dotenv-vscode"
-      ]
+      ],
+      "settings": {
+        "terminal.integrated.fontFamily": "MesloLGS NF"
+      }
     }
   },
-
-  // Use 'postCreateCommand' to run commands after the container is created.
-  // Since container runs under a node user we need to give node user access to node_modules
-  "postCreateCommand": "sudo chown node node_modules && npm install",
-  // To start the server whenever container is run.
-  // nohup is used so that process is not killed after 15mins. & is used to run in background.
-  "postStartCommand": "nohup bash -c 'npm run dev &'",
-  // Configure tool-specific properties.
-  // "customizations": {},
-
   // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
   // "remoteUser": "vscode"
-
   // Mount node_modules as volume to speed up installation. Need to use - instead of / as its a restricted character
   "mounts": [
     {
@@ -49,13 +54,13 @@
     },
     {
       "source": "${localWorkspaceFolderBasename}-.devcontainer-.zsh_history",
-      "target": "/home/node",
+      "target": "/home/node/.zsh_history",
       "type": "volume"
     }
   ],
   // Change the default folder location from /workspace to /opt and load that inside container.
-  "workspaceMount": "source=${localWorkspaceFolder},target=/opt/${localWorkspaceFolderBasename},type=bind",
-  "workspaceFolder": "/opt/${localWorkspaceFolderBasename}",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/opt/${localWorkspaceFolderBasename},type=bind,consistency=cached",
+  "workspaceFolder": "/opt/${localWorkspaceFolderBasename}"
   // To load an env variable file.
-  "runArgs": ["--env-file", ".env"]
+  // "runArgs": ["--env-file", ".env"]
 }
