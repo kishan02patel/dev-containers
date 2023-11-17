@@ -53,6 +53,7 @@
       "type": "volume"
     },
     {
+      // Source is just used to name the volume. Its automatically managed by Docker. Make sure to add `export HISTFILE=~/history/.zsh_history` to .zshrc as we are copying from local machine.
       "source": "${localWorkspaceFolderBasename}-.devcontainer-history",
       "target": "/home/node/history",
       "type": "volume"
