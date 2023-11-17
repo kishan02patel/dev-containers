@@ -1,24 +1,24 @@
-# Dev Containers (aka Remote Containers)
+# Dev Containers (Remote Containers)
 
 ### Requirements
 
 - Git
-- Docker Desktop
-- Remote Containers Extension
+- Docker
+- Remote Containers Extension VS Code
 
-### Steps:
+### Steps to create dev container:
 
-- Open the code folder in VS Code
-- Search "Add Development Container Config Files" in command palette (cmd+shift+P)
+- Open the code folder in VS Code.
+- Search "Add Development Container Config Files" in command palette (cmd+shift+P).
 - Configure with things that you need like Python, Node etc.
 - Add features which you want like oh-my-zsh, autocomplete etc.
-- Search "Rebuild Container" in command palette
+- Search "Rebuild Container" in command palette.
 - Configure the `devcontainer.json` file with things like post creation script to install dependencies, port forwarding, adding necessary extensions etc.
 
-- > Anything you install manually inside the container will be deleted on the next run or when its rebuilt.
+- > Anything you install manually inside the container will be deleted on the next run. Use Dockerfile instead.
 - To install any other software we can use `RUN` command in the Dockerfile.
 
-### Improvements:
+### Things you might want to do:
 
 - By default the code folder is put inside the `/workspace` folder. You can change this in `devcontainer.json` file using `workspaceMount` and `workspaceFolder` properties.
 
